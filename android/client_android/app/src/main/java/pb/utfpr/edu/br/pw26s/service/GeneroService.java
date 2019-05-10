@@ -21,7 +21,6 @@ public interface GeneroService {
     @POST("/serie/genero/")
     Call<Void> save(@Body Genero genero);
 
-
     @DELETE("/serie/genero/{id}")
     Call<Void> delete(@Path("id") Long id);
 }

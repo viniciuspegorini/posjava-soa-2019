@@ -116,30 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void efetuarLogin(){
-        try {
-            LoginService loginService = ServiceGenerator
-                    .createService(LoginService.class);
-
-            Usuario usuario = new Usuario();
-            usuario.setUsername(mEmailView.getText().toString());
-            usuario.setPassword(mPasswordView.getText().toString());
-
-            Call<TokenResponse> call = loginService.getLogin(usuario);
-            TokenResponse tokenResponse = call.execute().body();
-
-            if (tokenResponse != null){
-                tokenResponse.setTokenSharedPreferences(tokenResponse.getToken(),
-                        this);
-                abrirHome();
-            }else{
-                mEmailView.setError(getString(R.string.error_invalid_email));
-                mEmailView.requestFocus();
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "Falha efetuar login! " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
+        //TODO-DO criar serviço de login
     }
 
 

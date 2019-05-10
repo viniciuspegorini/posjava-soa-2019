@@ -9,26 +9,14 @@ import { Message } from 'primeng/api';
 })
 export class LoginComponent implements OnInit {
 
-  username: string;
-  password: string;
-  msgs: Message[] = [];
 
-  constructor(private loginService: LoginService,
-              private router: Router) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.loginService.isAuthenticated.next(false);
   }
 
   login() {
-    this.loginService.login(this.username, this.password).subscribe(e => {
-      this.router.navigate(['/']);
-    }, error => {
-      // alert(error.error.error_description);
-      this.msgs = [{severity: 'error', summary: 'Erro',
-      detail: 'Usuário e/ou senha incorreto(s)!'}];
-    });
   }
 
 }

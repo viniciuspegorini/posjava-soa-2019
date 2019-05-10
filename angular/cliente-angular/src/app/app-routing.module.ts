@@ -9,15 +9,11 @@ import { LoginService } from './login/login.service';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  {
-    path: '', canActivate: [LoginService], children: [
-      { path: '', component: IndexComponent },
-      { path: 'genero', component: GeneroComponent },
-      { path: 'serie', component: SerieComponent }
-    ]
-  },
-  {path: 'login', component: LoginComponent},
-  { path: 'produtora', component: ProdutoraComponent }
+  { path: 'produtora', component: ProdutoraComponent},
+  { path: '', component: IndexComponent},
+  { path: 'genero', component: GeneroComponent},
+  { path: 'serie', component: SerieComponent}
+  { path: 'login', component: LoginComponent},
 ];
 
 @NgModule({
