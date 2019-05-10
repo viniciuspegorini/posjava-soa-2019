@@ -1,0 +1,115 @@
+<div class="container">
+  <h2><span class="badge badge-light">Cadastro de Séries</span></h2>
+  <button class="btn btn-primary" (click)="novo()"><i class="fa fa-plus-square"></i> Novo registro</button>
+  <p-table #dt [columns]="cols" [value]="series" [lazy]="true" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20,50]"
+    [totalRecords]="totalRecords" (onLazyLoad)="loadLazy($event)">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Buscar por nome ou resumo..." (input)="dt.filterGlobal($event.target.value, 'contains')"
+          style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-serie>
+      <tr>
+        <td>{{serie.id}}</td>
+        <td>{{serie.nome}}</td>
+        <td>{{serie.nota}}</td>
+        <td>{{serie.dataEstreia}}</td>
+        <td>{{serie.dataEncerramento}}</td>
+        <td>{{serie.genero.nome}}</td>
+        <td>{{serie.produtora.nome}}</td>
+        <td>
+          <button class="btn btn-primary" (click)="editar(serie)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-danger" (click)="remover(serie)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-confirmDialog></p-confirmDialog>
+  <p-growl [(value)]="msgs"></p-growl>
+
+  <p-dialog header="Cadastro" [(visible)]="showDialog" modal="modal" [responsive]="true" [width]="500">
+    <p-tabView>
+      <p-tabPanel header="Cadastro">
+        <div class="row">
+          <div class="ui-g-12 ui-fluid">
+            <div class="ui-g-12 ui-fluid">
+              <label for="nome">Nome</label>
+              <input pInputText type="text" name="nome" id="nome" [(ngModel)]="serieEdit.nome">
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <label for="dataEstreia">Estréia</label>
+              <p-calendar id="dataEstreia" dateFormat="dd/mm/yy" dataType="string" [(ngModel)]="serieEdit.dataEstreia"></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <label for="dataEncerramento">Encerramento</label>
+              <p-calendar id="dataEncerramento" dateFormat="dd/mm/yy" dataType="string" [(ngModel)]="serieEdit.dataEncerramento"></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <label for="nota">Nota</label>
+              <p-spinner size="3" [step]="1" [min]="0" [max]="100" [(ngModel)]="serieEdit.nota"></p-spinner>
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <label for="genero">Gênero</label>
+              <p-dropdown [style]="{'width':'100%'}" [options]="generos" [(ngModel)]="serieEdit.genero" optionLabel="nome"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <label for="produtora">Produtora</label>
+              <p-autoComplete [(ngModel)]="serieEdit.produtora" [suggestions]="produtorasFiltered" (completeMethod)="search($event)"
+                field="nome"></p-autoComplete>
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <label for="resumo">Resumo</label>
+              <textarea pInputTextarea id="resumo" name="resumo" [rows]="5" [cols]="50" class="form-control"
+                [(ngModel)]="serieEdit.resumo"></textarea>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Imagem" *ngIf="serieEdit.id">
+        <div class="row">
+          <div class="ui-g-12 ui-fluid">
+            <label for="imagem">Imagem</label>
+            <p-fileUpload chooseLabel="Selecionar..." cancelLabel="Cancelar" name="imagem" url="{{urlApi}}/serie/upload/{{serieEdit.id}}"
+              (onUpload)="onUpload($event)" accept=".jpg" maxFileSize="1000000">
+              <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                  <li *ngFor="let file of uploadedFiles">
+                    {{file.name}} - {{file.size}} bytes
+                  </li>
+                </ul>
+              </ng-template>
+            </p-fileUpload>
+          </div>
+          <div class="ui-g-12 ui-fluid" *ngIf="serieEdit.imagem">
+            <label for="imagemAtual">Imagem atual:</label>
+            <br />
+            <img alt="Nenhuma imagem cadastrada!" src="{{urlApi}}/images/{{serieEdit.imagem}}?{{today}}" width="100"
+              height="150">
+          </div>
+
+        </div>
+      </p-tabPanel>
+
+    </p-tabView>
+    <p-footer>
+      <button type="button" class="btn btn-default" (click)="cancelar()"><i class="fa fa-ban"></i> Cancelar</button>
+      <button type="button" class="btn btn-success" (click)="salvar()"><i class="fa fa-save"></i> Salvar</button>
+    </p-footer>
+  </p-dialog>
+</div>
