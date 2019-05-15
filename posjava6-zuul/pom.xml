@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.edu.utfpr.pb</groupId>
-	<artifactId>posjava4-zuul</artifactId>
+	<artifactId>posjava6-zuul</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>posjava4-zuul</name>
+	<name>posjava6-zuul</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
