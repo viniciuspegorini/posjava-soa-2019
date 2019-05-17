@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm">
+    <ion-item>
+      <ion-label position="floating">Usuário</ion-label>
+      <ion-input type="text" formControlName="username" name="username" nome="username" [(ngModel)]="username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Senha</ion-label>
+      <ion-input type="password" formControlName="password" name="password" nome="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+    <ion-button shape="round" color="primary" expand="block" [disabled]="!loginForm.valid" (click)="login()">Salvar
+    </ion-button>
+  </form>
+</ion-content>

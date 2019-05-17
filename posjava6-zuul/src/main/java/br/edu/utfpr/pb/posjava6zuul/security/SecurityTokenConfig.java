@@ -35,7 +35,7 @@ public class SecurityTokenConfig extends
 		
 		.authorizeRequests()
 		.antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
-		.antMatchers("/api/**").hasRole("ADMIN")
+		.antMatchers("/api/**").hasRole("ADMIN") //.permitAll()
 		.antMatchers("/client/**").hasRole("USER")
 		.anyRequest().authenticated();
 	
